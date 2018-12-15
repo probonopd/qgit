@@ -20,6 +20,11 @@ script: # build
   - if [ "$META_MAKE" != "qmake" ] ; then make -j$(nproc) ; fi
   - |
     if [ "$META_MAKE" == "qmake" ] ; then
+      git clone git://github.com/git/git.git
+      cd git
+      make -j$(nproc)
+      make DESTDIR=../appdir -j$(nproc) install
+      cd ..
       qmake .. CONFIG+=release PREFIX=/usr
       make -j$(nproc)
       # FIXME: The following 3 lines should go away, https://github.com/probonopd/linuxdeployqt#fix-for-make-nothing-to-be-done-for-install
